@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server-general-deployment
+  labels: { component: server, type: api, org: general }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+      type: api
+      org: general
+  template:
+    metadata:
+      labels:
+        component: server
+        type: api
+        org: general
+    spec:
+      volumes:
+        - name: general-pv-mount
+          persistentVolumeClaim:
+            claimName: general-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        # - name: regulator-pv-mount
+        #   persistentVolumeClaim:
+        #     claimName: regulator-persistent-volume-claim
+        - name: host-mount
+          hostPath:
+            path: /files
+      containers:
+        - name: api-server-general
+          image: sudeepjc/general-org-app:1.0.4
+          # workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+          # command: ["sh"]
+          # args: ["/files/scripts/sleepInfinity.sh"]
+          volumeMounts:
+            - name: host-mount
+              mountPath: /files
+            - name: network-pv-mount
+              mountPath: /artifacts/channel-artifacts
+              subPath: artifacts/channel-artifacts
+            - name: network-pv-mount
+              mountPath: /orgCertificates
+              subPath: orgCertificates
+            - mountPath: /etc/hyperledger/fabric/general/users
+              name: general-pv-mount
+              subPath: state/general-ca-client/users
+            # - mountPath: /etc/hyperledger/fabric/tls
+            #   name: general-pv-mount
+            #   subPath: state/general-ca-client/peers/peer0.general.parttracer.com/tls
+            # - name: regulator-pv-mount
+            #   mountPath: /var/hyperledger/orderer/msp
+            #   subPath: state/regulator-ca-client/orderers/orderer2.parttracer.com/msp

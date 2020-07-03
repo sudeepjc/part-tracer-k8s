@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: peer0-couchdb-general
+  labels: { component: peer0, type: couchdb, org: general }
+spec:
+  type: ClusterIP
+  selector:
+    component: peer0
+    type: couchdb
+    org: general
+  ports:
+    - port: 5984
+      targetPort: 5984

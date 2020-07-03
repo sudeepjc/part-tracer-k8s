@@ -1,0 +1,21 @@
+# Sample YAML for client config
+name: "General Client"
+version: "1.0"
+description: "Client section for General"
+
+# Client section describes the client
+client:
+  # Org name
+  organization: general
+  # User context storage
+  credentialStore:
+    # State
+    path: "./credstore/hfc-kvs"
+    # Public & Private key
+    cryptoStore:
+      path: "./credstore/hfc-cvs"
+
+  #GRPC options
+  connection:
+    options:
+      grpc.keepalive_time_ms: 120000

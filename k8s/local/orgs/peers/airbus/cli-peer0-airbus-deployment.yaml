@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cli-peer0-airbus-deployment
+  labels: { component: peer0, type: cli, org: airbus }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: peer0
+      type: cli
+      org: airbus
+  template:
+    metadata:
+      labels:
+        component: peer0
+        type: cli
+        org: airbus
+    spec:
+      volumes:
+        - name: airbus-pv-mount
+          persistentVolumeClaim:
+            claimName: airbus-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        - name: regulator-pv-mount
+          persistentVolumeClaim:
+            claimName: regulator-persistent-volume-claim
+        - name: host-mount
+          hostPath:
+            path: /files
+      containers:
+        - name: cli-peer0-airbus
+          image: hyperledger/fabric-tools:2.0.1
+          # workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+          command: ["sh"]
+          args: ["/files/scripts/sleepInfinity.sh"]
+          env:
+            - name: GOPATH
+              value: /opt/gopath
+            - name: CORE_PEER_ADDRESSAUTODETECT
+              value: "true"
+            - name: CORE_PEER_ID
+              value: cli-peer0-airbus
+            - name: CORE_PEER_ADDRESS
+              value: peer0-airbus-service:7051
+            - name: CORE_PEER_LOCALMSPID
+              value: AirbusMSP
+            - name: CORE_PEER_MSPCONFIGPATH
+              value: /etc/hyperledger/fabric/users/Admin@airbus.parttracer.com/msp
+            - name: CORE_PEER_TLS_ENABLED
+              value: "true"
+            - name: CORE_PEER_TLS_CERT_FILE
+              value: /etc/hyperledger/fabric/tls/server.crt
+            - name: CORE_PEER_TLS_KEY_FILE
+              value: /etc/hyperledger/fabric/tls/server.key
+            - name: CORE_PEER_TLS_ROOTCERT_FILE
+              value: /etc/hyperledger/fabric/tls/ca.crt
+            - name: ARTIFACTS_MOUNT_POINT
+              value: /var/hyperledger/peer/data
+            - name: ORDERER_CA_PATH
+              value: /var/hyperledger/orderer/msp
+            - name: ORDERER_SERVER
+              value: orderer1-regulator-service
+          volumeMounts:
+            - name: host-mount
+              mountPath: /files
+            - name: network-pv-mount
+              mountPath: /var/hyperledger/peer/data
+              subPath: artifacts/channel-artifacts
+            - name: network-pv-mount
+              mountPath: /orgCertificates
+              subPath: orgCertificates
+            - mountPath: /etc/hyperledger/fabric/users
+              name: airbus-pv-mount
+              subPath: state/airbus-ca-client/users
+            - mountPath: /etc/hyperledger/fabric/tls
+              name: airbus-pv-mount
+              subPath: state/airbus-ca-client/peers/peer0.airbus.parttracer.com/tls
+            - name: regulator-pv-mount
+              mountPath: /var/hyperledger/orderer/msp
+              subPath: state/regulator-ca-client/orderers/orderer1.parttracer.com/msp

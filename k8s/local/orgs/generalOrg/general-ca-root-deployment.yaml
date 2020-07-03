@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: general-ca-root-deployment
+  labels: { component: root, type: ca-server, org: general }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: root
+      type: ca-server
+      org: general
+  template:
+    metadata:
+      labels:
+        component: root
+        type: ca-server
+        org: general
+    spec:
+      volumes:
+        - name: general-pv-mount
+          persistentVolumeClaim:
+            claimName: general-persistent-volume-claim
+        - name: host-mount
+          hostPath:
+            path: /files
+      containers:
+        - name: general-ca-root
+          image: hyperledger/fabric-ca:1.4.6
+          # command: ["sleep"]
+          # args: ["infinity"]
+          command: ["sh"]
+          args: ["/files/scripts/start-ca-root.sh"]
+          ports:
+            - containerPort: 7054
+          env:
+            - name: FABRIC_CA_SERVER_HOME
+              value: /etc/hyperledger/fabric-ca-server
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: general-ca-root
+            - name: FABRIC_CA_SERVER_PORT
+              value: "7054"
+            - name: ROOT_USERNAME
+              value: generalAdmin
+            - name: ROOT_PASSWORD
+              value: generalAdminpw
+            - name: FABRIC_CA_SERVER_TLS_ENABLED
+              value: "true"
+          volumeMounts:
+            - name: host-mount
+              mountPath: /files
+            - name: general-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-server
+              subPath: state/general-ca-root

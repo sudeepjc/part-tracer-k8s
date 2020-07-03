@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbus-ca-client-deployment
+  labels: { component: client, type: ca-client, org: airbus }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: client
+      type: ca-client
+      org: airbus
+  template:
+    metadata:
+      labels:
+        component: client
+        type: ca-client
+        org: airbus
+    spec:
+      volumes:
+        - name: airbus-pv-mount
+          persistentVolumeClaim:
+            claimName: airbus-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        - name: host-mount
+          hostPath:
+            path: /files
+      containers:
+        - name: airbus-ca-client
+          image: hyperledger/fabric-ca:1.4.6
+          command: ["sleep"]
+          args: ["infinity"]
+          env:
+            - name: FABRIC_CA_CLIENT_HOME
+              value: /etc/hyperledger/fabric-ca-client/airbus
+            - name: FABRIC_CA_SERVER_NAME
+              value: airbus-ca-root
+            - name: FABRIC_CA_SERVER_PORT
+              value: "7054"
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: airbus-ca-root
+            - name: ROOT_USERNAME
+              value: airbusAdmin
+            - name: ROOT_PASSWORD
+              value: airbusAdminpw
+            - name: FABRIC_CA_SERVER_CERT_MOUNT_PATH
+              value: /etc/hyperledger/fabric-ca-server-root
+          volumeMounts:
+            - name: host-mount
+              mountPath: /files
+            - name: airbus-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-server-root
+              subPath: state/airbus-ca-root
+            - name: airbus-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-client/airbus
+              subPath: state/airbus-ca-client
+            - name: network-pv-mount
+              mountPath: /orgCertificates/airbus
+              subPath: orgCertificates/airbus

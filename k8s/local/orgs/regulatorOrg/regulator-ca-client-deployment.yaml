@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regulator-ca-client-deployment
+  labels: { component: client, type: ca-client, org: regulator }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: client
+      type: ca-client
+      org: regulator
+  template:
+    metadata:
+      labels:
+        component: client
+        type: ca-client
+        org: regulator
+    spec:
+      volumes:
+        - name: regulator-pv-mount
+          persistentVolumeClaim:
+            claimName: regulator-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        - name: host-mount
+          hostPath:
+            path: /files
+      # initContainers:
+      #   # containers:
+      #   - name: init-myservice
+      #     image: busybox:1.28
+      #     # command: ["sh", "-c", "chmod -R 755 /files/bin"]
+      #     command:
+      #       [
+      #         "sh",
+      #         "-c",
+      #         "mkdir -p /hlfbins;cp -rf /files/bin/* /hlfbins/.;chmod -R 755 /hlfbins",
+      #       ]
+      #     volumeMounts:
+      #       - name: host-mount
+      #         mountPath: /files
+      containers:
+        - name: regulator-ca-client
+          image: hyperledger/fabric-ca:1.4.6
+          command: ["sleep"]
+          args: ["infinity"]
+          env:
+            - name: FABRIC_CA_CLIENT_HOME
+              value: /etc/hyperledger/fabric-ca-client/regulator
+            - name: FABRIC_CA_SERVER_NAME
+              value: regulator-ca-root
+            - name: FABRIC_CA_SERVER_PORT
+              value: "7054"
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: regulator-ca-root
+            - name: ROOT_USERNAME
+              value: regulatorAdmin
+            - name: ROOT_PASSWORD
+              value: regulatorAdminpw
+            - name: FABRIC_CA_SERVER_CERT_MOUNT_PATH
+              value: /etc/hyperledger/fabric-ca-server-root
+          volumeMounts:
+            - name: host-mount
+              mountPath: /files
+            - name: regulator-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-server-root
+              subPath: state/regulator-ca-root
+            - name: regulator-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-client/regulator
+              subPath: state/regulator-ca-client
+            - name: network-pv-mount
+              mountPath: /artifacts
+              subPath: artifacts
+            - name: network-pv-mount
+              mountPath: /orgCertificates
+              subPath: orgCertificates

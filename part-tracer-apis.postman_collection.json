@@ -1,0 +1,797 @@
+{
+	"info": {
+		"_postman_id": "170208aa-cc9e-4a79-a6e7-04b238cb3883",
+		"name": "part-tracer-minikube-apis",
+		"description": "APIs to use the part-tracer hyperledger network",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "general org apis",
+			"item": [
+				{
+					"name": "general user enroll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"userPwd\": \"User1pw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/general/enroll/User1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"general",
+								"enroll",
+								"User1"
+							]
+						},
+						"description": "request to enroll the user for the specified organization"
+					},
+					"response": []
+				},
+				{
+					"name": "general manufacturing user enroll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"userPwd\": \"manupw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/general/enroll/manu",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"general",
+								"enroll",
+								"manu"
+							]
+						},
+						"description": "request to enroll the user for the specified organization"
+					},
+					"response": []
+				},
+				{
+					"name": "general sales user enroll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"userPwd\": \"salupw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/general/enroll/salu",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"general",
+								"enroll",
+								"salu"
+							]
+						},
+						"description": "request to enroll the user for the specified organization"
+					},
+					"response": []
+				},
+				{
+					"name": "general sales manager enroll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"userPwd\": \"balupw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/general/enroll/balu",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"general",
+								"enroll",
+								"balu"
+							]
+						},
+						"description": "request to enroll the user for the specified organization"
+					},
+					"response": []
+				},
+				{
+					"name": "general add part",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"User1\",\n\t\"partDetails\" : [\"engine_6\",\"engine\",\"Two seater premium plane engine\",\"1100000\",\"General Electric\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/part",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"part"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general manufacturing user add part",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"manu\",\n\t\"partDetails\" : [\"engine_1\",\"engine\",\"Two seater premium plane engine\",\"1100000\",\"General Electric\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/part",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"part"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general sell part",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"User1\",\n\t\"partDetails\" : [\"engine_3\",\"AirbusMSP\",\"98000\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/sell/part",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"sell",
+								"part"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general sell part as sales shark",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"salu\",\n\t\"partDetails\" : [\"engine_10\",\"AirbusMSP\",\"98000\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/sell/part",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"sell",
+								"part"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general sell part as sales manager",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"balu\",\n\t\"partDetails\" : [\"engine_10\",\"AirbusMSP\",\"98000\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/sell/part",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"sell",
+								"part"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general query part",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"queryPart\", \"queryArgs\":[\"engine_10\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general query parts range",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"queryParts\", \"queryArgs\":[\"\",\"\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general query parts range with pagination",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"queryPartsWithPagination\", \"queryArgs\":[\"\",\"\",\"3\",\"engine_3\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.124:31515/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"124"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general query parts history",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"getPartHistory\", \"queryArgs\":[\"engine_2\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.124:31515/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"124"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "general rich queries",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"getRichQueryResult\", \"queryArgs\":[\"{\\\"selector\\\":{\\\"docType\\\":\\\"Part\\\",\\\"owner\\\":\\\"GeneralMSP\\\"}}\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "airbus org apis",
+			"item": [
+				{
+					"name": "airbus user1 enroll",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"userPwd\": \"User1pw\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31516/api/airbus/enroll/User1",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31516",
+							"path": [
+								"api",
+								"airbus",
+								"enroll",
+								"User1"
+							]
+						},
+						"description": "request to enroll the user for the specified organization"
+					},
+					"response": []
+				},
+				{
+					"name": "airbus query part",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"queryPart\", \"queryArgs\":[\"engine_1\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31516/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31516",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "airbus query parts range",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"queryParts\", \"queryArgs\":[\"engine_1\",\"engine_3\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31516/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31516",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "airbus query parts range with pagination",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"queryPartsWithPagination\", \"queryArgs\":[\"\",\"\",\"3\",\"engine_3\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31516/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31516",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "airbus query parts history",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"getPartHistory\", \"queryArgs\":[\"engine_2\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31516/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31516",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "airbus rich queries",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"user\":\"User1\", \"function\":\"getRichQueryResult\", \"queryArgs\":[\"{\\\"selector\\\":{\\\"docType\\\":\\\"Part\\\",\\\"owner\\\":\\\"GeneralMSP\\\"}}\"]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31516/api/mychannel/partTracer/parts",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31516",
+							"path": [
+								"api",
+								"mychannel",
+								"partTracer",
+								"parts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "general org others",
+			"item": [
+				{
+					"name": "channel query",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"User1\",\n\t\"org\" : \"general\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/channel/mychannel",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"channel",
+								"mychannel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "peer query",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\":\"Admin\",\n\t\"org\" : \"general\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "192.168.99.125:31515/api/peers/peer0-general-service",
+							"host": [
+								"192",
+								"168",
+								"99",
+								"125"
+							],
+							"port": "31515",
+							"path": [
+								"api",
+								"peers",
+								"peer0-general-service"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

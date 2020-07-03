@@ -1,0 +1,21 @@
+# Sample YAML for client config
+name: "Airbus Client"
+version: "1.0"
+description: "Client section for Airbus"
+
+# Client section describes the client
+client:
+  # Org name
+  organization: airbus
+  # User context storage
+  credentialStore:
+    # State
+    path: "./credstore/hfc-kvs"
+    # Public & Private key
+    cryptoStore:
+      path: "./credstore/hfc-cvs"
+
+  #GRPC options
+  connection:
+    options:
+      grpc.keepalive_time_ms: 120000

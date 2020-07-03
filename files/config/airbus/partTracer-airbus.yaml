@@ -1,0 +1,92 @@
+version: "1.0"
+
+channels:
+  mychannel:
+    orderers:
+      - orderer0-regulator-service
+      - orderer1-regulator-service
+      - orderer2-regulator-service
+    peers:
+      peer0-general-service:
+        endorsingPeer: true
+        chaincodeQuery: false
+        ledgerQuery: false
+        eventSource: false
+      peer0-airbus-service:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+name: test
+orderers:
+  orderer0-regulator-service:
+    grpcOptions:
+      ssl-target-name-override: orderer0-regulator-service
+    tlsCACerts:
+      path: /orgCertificates/regulator/msp/tlscacerts/tlsca.parttracer.com-cert.pem
+    url: "grpcs://orderer0-regulator-service:7050"
+  orderer1-regulator-service:
+    grpcOptions:
+      ssl-target-name-override: orderer1-regulator-service
+    tlsCACerts:
+      path: /orgCertificates/regulator/msp/tlscacerts/tlsca.parttracer.com-cert.pem
+    url: "grpcs://orderer1-regulator-service:7050"
+  orderer2-regulator-service:
+    grpcOptions:
+      ssl-target-name-override: orderer2-regulator-service
+    tlsCACerts:
+      path: /orgCertificates/regulator/msp/tlscacerts/tlsca.parttracer.com-cert.pem
+    url: "grpcs://orderer2-regulator-service:7050"
+organizations:
+  general:
+    mspid: GeneralMSP
+    peers:
+      - peer0-general-service
+  airbus:
+    mspid: AirbusMSP
+    peers:
+      - peer0-airbus-service
+    certificateAuthorities:
+      - airbus-ca-root
+
+peers:
+  peer0-general-service:
+    grpcOptions:
+      ssl-target-name-override: peer0-general-service
+    tlsCACerts:
+      path: /orgCertificates/general/msp/tlscacerts/ca.crt
+    url: "grpcs://peer0-general-service:7051"
+  peer0-airbus-service:
+    grpcOptions:
+      ssl-target-name-override: peer0-airbus-service
+    tlsCACerts:
+      path: /orgCertificates/airbus/msp/tlscacerts/ca.crt
+    url: "grpcs://peer0-airbus-service:7051"
+
+certificateAuthorities:
+  #
+  # [Required]. Airbus CA
+  #
+  airbus-ca-root:
+    #
+    # [Required]. CA IP address
+    #
+    url: https://airbus-ca-root:7054
+    #
+    # [Optional]. HTTP connection properties used for communication
+    #
+    httpOptions:
+      verify: false
+    #
+    # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
+    # registrar is needed to enroll new users.
+    #
+    registrar:
+      - enrollId: airbusAdmin
+        enrollSecret: airbusAdminpw
+    #
+    # [Optional]. The name of the CA.
+    #
+    caName: airbus-ca-root
+    tlsCACerts:
+      path: /orgCertificates/airbus/msp/tlscacerts/ca.crt

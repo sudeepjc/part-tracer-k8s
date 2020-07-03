@@ -1,0 +1,36 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: regulator-client-deployment
+#   labels: { component: tools, org: regulator }
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       component: tools
+#       org: regulator
+#   template:
+#     metadata:
+#       labels:
+#         component: tools
+#         org: regulator
+#     spec:
+#       volumes:
+#         - name: regulator-pv-mount
+#           persistentVolumeClaim:
+#             claimName: regulator-persistent-volume-claim
+#       containers:
+#         - name: regulator-client
+#           image: hyperledger/fabric-tools:2.0.1
+#           command: ["sh"]
+#           args: ["infinity"]
+#           volumeMounts:
+#             - name: regulator-pv-mount
+#               mountPath: /scripts
+#               subPath: files/scripts
+#             - name: regulator-pv-mount
+#               mountPath: /etc/hyperledger/fabric-ca-server-root
+#               subPath: state/regulator-ca-root
+#             - name: regulator-pv-mount
+#               mountPath: /etc/hyperledger/fabric-ca-client/regulator
+#               subPath: state/regulator-ca-client

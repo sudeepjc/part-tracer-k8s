@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cli-peer0-general-deployment
+  labels: { component: peer0, type: cli, org: general }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: peer0
+      type: cli
+      org: general
+  template:
+    metadata:
+      labels:
+        component: peer0
+        type: cli
+        org: general
+    spec:
+      volumes:
+        - name: general-pv-mount
+          persistentVolumeClaim:
+            claimName: general-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        - name: regulator-pv-mount
+          persistentVolumeClaim:
+            claimName: regulator-persistent-volume-claim
+        - name: host-mount
+          hostPath:
+            path: /files
+      containers:
+        - name: cli-peer0-general
+          image: hyperledger/fabric-tools:2.0.1
+          # workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+          command: ["sh"]
+          args: ["/files/scripts/sleepInfinity.sh"]
+          env:
+            - name: GOPATH
+              value: /opt/gopath
+            - name: CORE_PEER_ADDRESSAUTODETECT
+              value: "true"
+            - name: CORE_PEER_ID
+              value: cli-peer0-general
+            - name: CORE_PEER_ADDRESS
+              value: peer0-general-service:7051
+            - name: CORE_PEER_LOCALMSPID
+              value: GeneralMSP
+            - name: CORE_PEER_MSPCONFIGPATH
+              value: /etc/hyperledger/fabric/users/Admin@general.parttracer.com/msp
+            - name: CORE_PEER_TLS_ENABLED
+              value: "true"
+            - name: CORE_PEER_TLS_CERT_FILE
+              value: /etc/hyperledger/fabric/tls/server.crt
+            - name: CORE_PEER_TLS_KEY_FILE
+              value: /etc/hyperledger/fabric/tls/server.key
+            - name: CORE_PEER_TLS_ROOTCERT_FILE
+              value: /etc/hyperledger/fabric/tls/ca.crt
+            - name: ARTIFACTS_MOUNT_POINT
+              value: /var/hyperledger/peer/data
+            - name: ORDERER_CA_PATH
+              value: /var/hyperledger/orderer/msp
+            - name: ORDERER_SERVER
+              value: orderer2-regulator-service
+          volumeMounts:
+            - name: host-mount
+              mountPath: /files
+            - name: network-pv-mount
+              mountPath: /var/hyperledger/peer/data
+              subPath: artifacts/channel-artifacts
+            - name: network-pv-mount
+              mountPath: /orgCertificates
+              subPath: orgCertificates
+            - mountPath: /etc/hyperledger/fabric/users
+              name: general-pv-mount
+              subPath: state/general-ca-client/users
+            - mountPath: /etc/hyperledger/fabric/tls
+              name: general-pv-mount
+              subPath: state/general-ca-client/peers/peer0.general.parttracer.com/tls
+            - name: regulator-pv-mount
+              mountPath: /var/hyperledger/orderer/msp
+              subPath: state/regulator-ca-client/orderers/orderer2.parttracer.com/msp

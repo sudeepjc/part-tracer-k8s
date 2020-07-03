@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer-airbus-service
+  labels: { component: orderer, org: airbus }
+spec:
+  type: ClusterIP
+  selector:
+    component: orderer
+    org: airbus
+  ports:
+    - port: 7050
+      targetPort: 7050
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer-general-service
+  labels: { component: orderer, org: general }
+spec:
+  type: ClusterIP
+  selector:
+    component: orderer
+    org: general
+  ports:
+    - port: 7050
+      targetPort: 7050
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer-regulator-service
+  labels: { component: orderer, org: regulator }
+spec:
+  type: ClusterIP
+  selector:
+    component: orderer
+    org: regulator
+  ports:
+    - port: 7050
+      targetPort: 7050
