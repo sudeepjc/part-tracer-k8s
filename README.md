@@ -20,5 +20,6 @@ Instructions:
 3. run command: npm install
 4. cd airbusOrgApp
 5. run command: npm install
-6. import the 'part-tracer-apis.postman_collection.json' file into postman for running queries
+6. import the 'part-tracer-apis.postman_collection.json' file into postman for running queries. The ip address in the saved collection need to be updated to your corresponding minikube ip address
 7. The folder inside k8s local has the commands to start the network as a minikube project
+
