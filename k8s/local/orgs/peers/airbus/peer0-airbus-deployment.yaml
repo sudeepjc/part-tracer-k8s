@@ -76,6 +76,10 @@ spec:
               value: newuser
             - name: CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
               value: "1234"
+            - name: CORE_OPERATIONS_LISTENADDRESS
+              value: "0.0.0.0:9443"
+            - name: CORE_METRICS_PROVIDER
+              value: prometheus
           volumeMounts:
             - mountPath: /var/run
               name: host

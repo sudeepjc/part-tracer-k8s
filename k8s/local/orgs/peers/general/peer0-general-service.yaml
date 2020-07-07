@@ -12,3 +12,7 @@ spec:
   ports:
     - port: 7051
       targetPort: 7051
+      name: gossip
+    - port: 9443
+      targetPort: 9443
+      name: operations

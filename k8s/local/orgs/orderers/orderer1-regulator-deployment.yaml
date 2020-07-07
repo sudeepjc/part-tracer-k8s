@@ -66,6 +66,10 @@ spec:
               value: /var/hyperledger/orderer1/tls/server.crt
             - name: ORDERER_GENERAL_CLUSTER_ROOTCAS
               value: "[/var/hyperledger/orderer1/tls/ca.crt]"
+            - name: ORDERER_OPERATIONS_LISTENADDRESS
+              value: "0.0.0.0:8443"
+            - name: ORDERER_METRICS_PROVIDER
+              value: prometheus
           volumeMounts:
             # - mountPath: /var/hyperledger/production/orderer1
             #   name: host-mount
