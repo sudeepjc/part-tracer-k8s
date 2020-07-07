@@ -12,6 +12,9 @@ Capabitities:
 6. With nodejs sdk and REST apis related to chaincode transactional queires and invokes
 7. With nodejs sdk and REST apis related to chaincode query, peer queries
 8. With nodejs sdk scripts related to channel creation, joining peer and updating the anchor peer
+9. Added ingress for routing apis
+10. Added logspec, operations, metrics apis and enabled them on the peers and orderers
+11. Added prometheus.yaml file for getting metrics from hyperledger network
 
 Instructions:
 
@@ -21,5 +24,5 @@ Instructions:
 4. cd airbusOrgApp
 5. run command: npm install
 6. import the 'part-tracer-apis.postman_collection.json' file into postman for running queries. The ip address in the saved collection need to be updated to your corresponding minikube ip address
-7. The folder inside k8s local has the commands to start the network as a minikube project
+7. The folder inside k8s has the commands to start the network as a minikube project
 
