@@ -4,13 +4,17 @@
 # Add billing info , if not done already
 # Create a kubernetes cluster
 
-cd part-tracer-k8s/k8s/local/
+cd part-tracer-k8s/k8s/production_gcp
 
 kubectl apply -f orgs/storage
 kubectl apply -f orgs/pvc_all
 
-kubectl apply -f orgs/airbusOrg
+kubectl apply -f orgs/airbusOrg/airbus-ca-client-deployment.yaml
+kubectl cp ~/part-tracer-k8s/files/* airbus-ca-client-deployment-5c866f87f5-sxcdm:/files
+kubectl apply -f orgs/airbusOrg/airbus-ca-root-deployment.yaml
 kubectl get pods
+
+
 
 kubectl exec -it $(kubectl get pods -l org=airbus,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusOrgRegisterEnroll.sh"
 
@@ -53,6 +57,13 @@ kubectl get pods
 
 kubectl apply -f orgs/apps/airbus
 kubectl get pods
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+
+kubectl apply -f orgs/ingress
+
+check the ipaddress , fix the bug from kubernetes ingress controller otherwise
+
 ___________________________________________________________________________________________________________________
 2020-06-25 23:29:38.843 UTC [orderer.common.server] Main -> INFO 356 Beginning to serve requests
 2020-06-25 23:29:38.845 UTC [orderer.consensus.etcdraft] apply -> INFO 357 Applied config change to add node 1, current nodes in channel: [1 2 3] channel=system-channel node=3
