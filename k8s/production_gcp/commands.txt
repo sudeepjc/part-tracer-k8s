@@ -6,55 +6,53 @@
 
 cd part-tracer-k8s/k8s/local/
 
-minikube.exe start --driver=virtualbox --no-vtx-check --mount --mount-string="C:\Users\Sudeep\part-tracer-k8s\files:/files" --memory='8g' --cpus=4
+kubectl apply -f orgs/storage
+kubectl apply -f orgs/pvc_all
 
-kubectl.exe apply -f orgs/storage
-kubectl.exe apply -f orgs/pvc_all
+kubectl apply -f orgs/airbusOrg
+kubectl get pods
 
-kubectl.exe apply -f orgs/airbusOrg
-kubectl.exe get pods
+kubectl exec -it $(kubectl get pods -l org=airbus,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusOrgRegisterEnroll.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=airbus,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusOrgRegisterEnroll.sh"
+kubectl apply -f orgs/generalOrg
+kubectl get pods
 
-kubectl.exe apply -f orgs/generalOrg
-kubectl.exe get pods
-
-kubectl.exe exec -it $(kubectl.exe get pods -l org=general,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/generalOrgRegisterEnroll.sh"
+kubectl exec -it $(kubectl get pods -l org=general,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/generalOrgRegisterEnroll.sh"
 
 
-kubectl.exe apply -f orgs/regulatorOrg
-kubectl.exe get pods
+kubectl apply -f orgs/regulatorOrg
+kubectl get pods
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=regulator,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/regulatorOrgRegisterEnroll.sh"
+kubectl exec -it $(kubectl get pods -l org=regulator,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/regulatorOrgRegisterEnroll.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=regulator,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/create-artifacts.sh"
+kubectl exec -it $(kubectl get pods -l org=regulator,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/create-artifacts.sh"
 
-kubectl.exe apply -f orgs/orderers
-kubectl.exe get pods
+kubectl apply -f orgs/orderers
+kubectl get pods
 
-kubectl.exe apply -f orgs/peers/airbus
-kubectl.exe get pods
+kubectl apply -f orgs/peers/airbus
+kubectl get pods
 
-kubectl.exe apply -f orgs/peers/general
-kubectl.exe get pods
+kubectl apply -f orgs/peers/general
+kubectl get pods
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/generalCreateChannel.sh"
+kubectl exec -it $(kubectl get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/generalCreateChannel.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=airbus,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusJoinChannel.sh"
+kubectl exec -it $(kubectl get pods -l org=airbus,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusJoinChannel.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/packageChainCode.sh"
+kubectl exec -it $(kubectl get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/packageChainCode.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/installChainCode.sh"
+kubectl exec -it $(kubectl get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/installChainCode.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=airbus,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/installChainCode.sh"
+kubectl exec -it $(kubectl get pods -l org=airbus,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/installChainCode.sh"
 
-kubectl.exe exec -it $(kubectl.exe get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/commitChainCode.sh"
+kubectl exec -it $(kubectl get pods -l org=general,type=cli | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/commitChainCode.sh"
 
-kubectl.exe apply -f orgs/apps/general
-kubectl.exe get pods
+kubectl apply -f orgs/apps/general
+kubectl get pods
 
-kubectl.exe apply -f orgs/apps/airbus
-kubectl.exe get pods
+kubectl apply -f orgs/apps/airbus
+kubectl get pods
 ___________________________________________________________________________________________________________________
 2020-06-25 23:29:38.843 UTC [orderer.common.server] Main -> INFO 356 Beginning to serve requests
 2020-06-25 23:29:38.845 UTC [orderer.consensus.etcdraft] apply -> INFO 357 Applied config change to add node 1, current nodes in channel: [1 2 3] channel=system-channel node=3
@@ -76,23 +74,23 @@ ________________________________________________________________________________
 2020-06-25 23:29:40.887 UTC [grpc] HandleSubConnStateChange -> DEBU 367 pickfirstBalancer: HandleSubConnStateChange: 0xc0001e4010, CONNECTING
 
 ###################
-kubectl.exe exec -it $(kubectl.exe get pods -l org=airbus,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusGenerateCryptoMaterial.sh"
+kubectl exec -it $(kubectl get pods -l org=airbus,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusGenerateCryptoMaterial.sh"
 ###################
 
 ###################
-kubectl.exe exec -it $(kubectl.exe get pods -l org=general,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/generalGenerateCryptoMaterial.sh"
+kubectl exec -it $(kubectl get pods -l org=general,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/generalGenerateCryptoMaterial.sh"
 ##################
 
 ###################
-kubectl.exe exec -it $(kubectl.exe get pods -l org=regulator,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/regulatorGenerateCryptoMaterial.sh"
+kubectl exec -it $(kubectl get pods -l org=regulator,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/regulatorGenerateCryptoMaterial.sh"
 #############################
 
 ###########
-kubectl.exe cp ~/part-tracer-k8s/scripts/start-ca-root.sh general-ca-root-deployment-79f67764cd-56qqn:/scripts
+kubectl cp ~/part-tracer-k8s/scripts/start-ca-root.sh general-ca-root-deployment-79f67764cd-56qqn:/scripts
 
-kubectl.exe exec -it general-ca-root-deployment-65f65bc495-4rkcl bash
+kubectl exec -it general-ca-root-deployment-65f65bc495-4rkcl bash
 
-kubectl.exe cp ~/part-tracer-k8s/scripts/start-ca-root.sh general-ca-root-deployment-79f67764cd-56qqn:/scripts
+kubectl cp ~/part-tracer-k8s/scripts/start-ca-root.sh general-ca-root-deployment-79f67764cd-56qqn:/scripts
 ###########
 
 ###########
