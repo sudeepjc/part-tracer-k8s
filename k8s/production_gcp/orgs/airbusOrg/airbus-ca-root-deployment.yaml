@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airbus-ca-root-deployment
+  labels: { component: root, type: ca-server, org: airbus }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: root
+      type: ca-server
+      org: airbus
+  template:
+    metadata:
+      labels:
+        component: root
+        type: ca-server
+        org: airbus
+    spec:
+      volumes:
+        - name: airbus-pv-mount
+          persistentVolumeClaim:
+            claimName: airbus-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+      containers:
+        - name: airbus-ca-root
+          image: hyperledger/fabric-ca:1.4.6
+          # command: ["sleep"]
+          # args: ["infinity"]
+          command: ["sh"]
+          args: ["/files/scripts/start-ca-root.sh"]
+          ports:
+            - containerPort: 7054
+          env:
+            - name: FABRIC_CA_SERVER_HOME
+              value: /etc/hyperledger/fabric-ca-server
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: airbus-ca-root
+            - name: FABRIC_CA_SERVER_PORT
+              value: "7054"
+            - name: ROOT_USERNAME
+              value: airbusAdmin
+            - name: ROOT_PASSWORD
+              value: airbusAdminpw
+            - name: FABRIC_CA_SERVER_TLS_ENABLED
+              value: "true"
+          volumeMounts:
+            - name: network-pv-mount
+              mountPath: /files
+              subPath: files
+            - name: airbus-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-server
+              subPath: state/airbus-ca-root

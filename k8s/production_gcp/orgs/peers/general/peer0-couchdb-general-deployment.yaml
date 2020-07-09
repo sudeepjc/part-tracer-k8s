@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: peer0-couchdb-general-deployment
+  labels: { component: peer0, type: couchdb, org: general }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: peer0
+      type: couchdb
+      org: general
+  template:
+    metadata:
+      labels:
+        component: peer0
+        type: couchdb
+        org: general
+    spec:
+      containers:
+        - name: peer0-couchdb-general
+          image: hyperledger/fabric-couchdb:0.4.18
+          env:
+            - name: COUCHDB_USER
+              value: newuser
+            - name: COUCHDB_PASSWORD
+              value: "1234"

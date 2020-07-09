@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: general-persistent-volume-claim
+spec:
+  storageClassName: gcp-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 256Mi

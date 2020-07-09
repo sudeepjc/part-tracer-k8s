@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server-airbus-deployment
+  labels: { component: server, type: api, org: airbus }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+      type: api
+      org: airbus
+  template:
+    metadata:
+      labels:
+        component: server
+        type: api
+        org: airbus
+    spec:
+      volumes:
+        - name: airbus-pv-mount
+          persistentVolumeClaim:
+            claimName: airbus-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        # - name: regulator-pv-mount
+        #   persistentVolumeClaim:
+        #     claimName: regulator-persistent-volume-claim
+        # - name: host-mount
+        #   hostPath:
+        #     path: /files
+      containers:
+        - name: api-server-airbus
+          image: sudeepjc/airbus-org-app:1.0.6
+          # workingDir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+          # command: ["sh"]
+          # args: ["/files/scripts/sleepInfinity.sh"]
+          volumeMounts:
+            - name: network-pv-mount
+              mountPath: /files
+              subPath: files
+            - name: network-pv-mount
+              mountPath: /artifacts/channel-artifacts
+              subPath: artifacts/channel-artifacts
+            - name: network-pv-mount
+              mountPath: /orgCertificates
+              subPath: orgCertificates
+            - mountPath: /etc/hyperledger/fabric/airbus/users
+              name: airbus-pv-mount
+              subPath: state/airbus-ca-client/users
+            # - mountPath: /etc/hyperledger/fabric/tls
+            #   name: airbus-pv-mount
+            #   subPath: state/airbus-ca-client/peers/peer0.airbus.parttracer.com/tls
+            # - name: regulator-pv-mount
+            #   mountPath: /var/hyperledger/orderer/msp
+            #   subPath: state/regulator-ca-client/orderers/orderer2.parttracer.com/msp

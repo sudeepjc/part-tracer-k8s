@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: peer0-couchdb-airbus-deployment
+  labels: { component: peer0, type: couchdb, org: airbus }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: peer0
+      type: couchdb
+      org: airbus
+  template:
+    metadata:
+      labels:
+        component: peer0
+        type: couchdb
+        org: airbus
+    spec:
+      containers:
+        - name: peer0-couchdb-airbus
+          image: hyperledger/fabric-couchdb:0.4.18
+          env:
+            - name: COUCHDB_USER
+              value: newuser
+            - name: COUCHDB_PASSWORD
+              value: "1234"

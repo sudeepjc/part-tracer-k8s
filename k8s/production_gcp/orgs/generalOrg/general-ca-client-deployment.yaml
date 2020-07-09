@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: general-ca-client-deployment
+  labels: { component: client, type: ca-client, org: general }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: client
+      type: ca-client
+      org: general
+  template:
+    metadata:
+      labels:
+        component: client
+        type: ca-client
+        org: general
+    spec:
+      volumes:
+        - name: general-pv-mount
+          persistentVolumeClaim:
+            claimName: general-persistent-volume-claim
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+        # - name: host-mount
+        #   hostPath:
+        #     path: /files
+      containers:
+        - name: general-ca-client
+          image: hyperledger/fabric-ca:1.4.6
+          command: ["sleep"]
+          args: ["infinity"]
+          env:
+            - name: FABRIC_CA_CLIENT_HOME
+              value: /etc/hyperledger/fabric-ca-client/general
+            - name: FABRIC_CA_SERVER_NAME
+              value: general-ca-root
+            - name: FABRIC_CA_SERVER_PORT
+              value: "7054"
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: general-ca-root
+            - name: ROOT_USERNAME
+              value: generalAdmin
+            - name: ROOT_PASSWORD
+              value: generalAdminpw
+            - name: FABRIC_CA_SERVER_CERT_MOUNT_PATH
+              value: /etc/hyperledger/fabric-ca-server-root
+          volumeMounts:
+            # - name: host-mount
+            #   mountPath: /files
+            - name: network-pv-mount
+              mountPath: /files
+              subPath: files
+            - name: general-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-server-root
+              subPath: state/general-ca-root
+            - name: general-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-client/general
+              subPath: state/general-ca-client
+            - name: network-pv-mount
+              mountPath: /orgCertificates/general
+              subPath: orgCertificates/general

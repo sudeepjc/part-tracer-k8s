@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regulator-ca-root-deployment
+  labels: { component: root, type: ca-server, org: regulator }
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: root
+      type: ca-server
+      org: regulator
+  template:
+    metadata:
+      labels:
+        component: root
+        type: ca-server
+        org: regulator
+    spec:
+      volumes:
+        - name: regulator-pv-mount
+          persistentVolumeClaim:
+            claimName: regulator-persistent-volume-claim
+        # - name: host-mount
+        #   hostPath:
+        #     path: /files
+        - name: network-pv-mount
+          persistentVolumeClaim:
+            claimName: network-persistent-volume-claim
+      containers:
+        - name: regulator-ca-root
+          image: hyperledger/fabric-ca:1.4.6
+          # command: ["sleep"]
+          # args: ["infinity"]
+          command: ["sh"]
+          args: ["/files/scripts/start-ca-root.sh"]
+          ports:
+            - containerPort: 7054
+          env:
+            - name: FABRIC_CA_SERVER_HOME
+              value: /etc/hyperledger/fabric-ca-server
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: regulator-ca-root
+            - name: FABRIC_CA_SERVER_PORT
+              value: "7054"
+            - name: ROOT_USERNAME
+              value: regulatorAdmin
+            - name: ROOT_PASSWORD
+              value: regulatorAdminpw
+            - name: FABRIC_CA_SERVER_TLS_ENABLED
+              value: "true"
+          volumeMounts:
+            # - name: host-mount
+            #   mountPath: /files
+            - name: network-pv-mount
+              mountPath: /files
+              subPath: files
+            - name: regulator-pv-mount
+              mountPath: /etc/hyperledger/fabric-ca-server
+              subPath: state/regulator-ca-root

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer2-regulator-service
+  labels: { component: orderer2, org: regulator }
+spec:
+  type: ClusterIP
+  selector:
+    component: orderer2
+    org: regulator
+  ports:
+    - port: 7050
+      targetPort: 7050
+      name: gossip
+    - port: 8443
+      targetPort: 8443
+      name: operations
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer1-regulator-service
+  labels: { component: orderer1, org: regulator }
+spec:
+  type: ClusterIP
+  selector:
+    component: orderer1
+    org: regulator
+  ports:
+    - port: 7050
+      targetPort: 7050
+      name: gossip
+    - port: 8443
+      targetPort: 8443
+      name: operations
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orderer0-regulator-service
+  labels: { component: orderer0, org: regulator }
+spec:
+  type: ClusterIP
+  selector:
+    component: orderer0
+    org: regulator
+  ports:
+    - port: 7050
+      targetPort: 7050
+      name: gossip
+    - port: 8443
+      targetPort: 8443
+      name: operations
