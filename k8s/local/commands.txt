@@ -1,4 +1,7 @@
 
+# minikube installed
+# kubectl installed
+# virtual box
 
 cd part-tracer-k8s/k8s/local/
 
