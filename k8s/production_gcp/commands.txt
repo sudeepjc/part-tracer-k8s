@@ -14,8 +14,6 @@ kubectl cp ~/part-tracer-k8s/files/* airbus-ca-client-deployment-5c866f87f5-sxcd
 kubectl apply -f orgs/airbusOrg/airbus-ca-root-deployment.yaml
 kubectl get pods
 
-
-
 kubectl exec -it $(kubectl get pods -l org=airbus,component=client | awk 'NR==2 {print $1}') -- bash -c "sh /files/scripts/airbusOrgRegisterEnroll.sh"
 
 kubectl apply -f orgs/generalOrg
@@ -63,6 +61,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/mast
 kubectl apply -f orgs/ingress
 
 check the ipaddress , fix the bug from kubernetes ingress controller otherwise
+https://kubernetes.github.io/ingress-nginx/deploy/#gce-gke
 
 ___________________________________________________________________________________________________________________
 2020-06-25 23:29:38.843 UTC [orderer.common.server] Main -> INFO 356 Beginning to serve requests

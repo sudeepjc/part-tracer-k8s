@@ -56,6 +56,10 @@ kubectl.exe get pods
 
 kubectl.exe apply -f orgs/apps/airbus
 kubectl.exe get pods
+
+minikube addons enable ingress
+
+
 ___________________________________________________________________________________________________________________
 2020-06-25 23:29:38.843 UTC [orderer.common.server] Main -> INFO 356 Beginning to serve requests
 2020-06-25 23:29:38.845 UTC [orderer.consensus.etcdraft] apply -> INFO 357 Applied config change to add node 1, current nodes in channel: [1 2 3] channel=system-channel node=3

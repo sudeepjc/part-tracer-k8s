@@ -20,21 +20,28 @@ rule_files:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "prometheus"
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-
-    static_configs:
-      - targets: ["localhost:9090"]
-  - job_name: ‘parttracer-hlf_metrics’
+  - job_name: ‘parttracer-orderer0_metrics’
     scrape_interval: 10s
+    metrics_path: orderer0/metrics
     static_configs:
-      - targets:
-          [
-            "192.168.99.126:30001",
-            "192.168.99.126:30002",
-            "192.168.99.126:30003",
-            "192.168.99.126:30011",
-            "192.168.99.126:30022",
-          ]
+      - targets: ["192.168.99.133:80"]
+  - job_name: ‘parttracer-orderer1_metrics’
+    scrape_interval: 10s
+    metrics_path: orderer1/metrics
+    static_configs:
+      - targets: ["192.168.99.133:80"]
+  - job_name: ‘parttracer-orderer2_metrics’
+    scrape_interval: 10s
+    metrics_path: orderer2/metrics
+    static_configs:
+      - targets: ["192.168.99.133:80"]
+  - job_name: ‘parttracer-peer0general_metrics’
+    scrape_interval: 10s
+    metrics_path: peer0general/metrics
+    static_configs:
+      - targets: ["192.168.99.133:80"]
+  - job_name: ‘parttracer-peer0airbus_metrics’
+    scrape_interval: 10s
+    metrics_path: peer0airbus/metrics
+    static_configs:
+      - targets: ["192.168.99.133:80"]
